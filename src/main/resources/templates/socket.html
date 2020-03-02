@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Netty-Websocket</title>
+    <script type="text/javascript" defer=true th:src="@{/js/system/jquery-1.10.2.js}"></script>
+    <script type="text/javascript" th:src="@{/js/websocket/contant.js}"></script>
+    <script type="text/javascript" th:src="@{/js/websocket/websocket.js}"></script>
+</head>
+<body onload="initWs();">
+<form onSubmit="return false;">
+    <label>ID</label><input type="text" name="uid" value="${uid!!}" /> <br />
+    <label>TEXT</label><input type="text" name="message" value="这里输入消息" /> <br />
+    <br /> <input type="button" value="发送ws消息"
+                  onClick="send(this.form.message.value)" />
+    <hr color="black" />
+    <h3>服务端返回的应答消息</h3>
+    <textarea id="responseText" style="width: 1024px;height: 300px;"></textarea>
+</form>
+</body>
+<script type="text/javascript">
+
+    function send(message){
+        var dataContent = new app.DataContent(app.CHAT, new app.ChatMsg("lyt", null, message, null), null);
+       wsChat(JSON.stringify(dataContent));
+    }
+
+</script>
+</html>
+---------------------https://blog.csdn.net/moshowgame/article/details/91552993
