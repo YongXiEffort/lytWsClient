@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <div class="chat-header">
+        <div class="chat-header-user">
+            <figure class="avatar avatar-lg">
+                <img th:src="@{/image/man_avatar3.jpg}" class="rounded-circle">
+            </figure>
+            <div>
+                <h5 th:text="${friUserName}">Karl Hubane</h5>
+                <small class="text-muted">
+                    <i id="chatBodyFriIfOnline">Online</i>
+                </small>
+            </div>
+        </div>
+        <div class="chat-header-action">
+            <ul class="list-inline">
+                <!--<li class="list-inline-item">-->
+                    <!--<a href="#" class="btn btn-success">-->
+                        <!--<i class="fa fa-phone" aria-hidden="true"></i>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li class="list-inline-item">-->
+                    <!--<a href="#" class="btn btn-secondary">-->
+                        <!--<i class="fa fa-video-camera" aria-hidden="true"></i>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <li class="list-inline-item">
+                    <a href="#" class="btn btn-secondary" data-toggle="dropdown">
+                        <i class="ti-more"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                        <a href="#" class="dropdown-item">Add to archive</a>
+                        <a href="#" class="dropdown-item">Delete</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">Block</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="chat-body"> <!-- .no-message -->
+        <!--
+        <div class="no-message-container">
+            <i class="fa fa-comments-o"></i>
+            <p>Select a chat to read messages</p>
+        </div>
+        -->
+        <div class="messages">
+
+
+
+        </div>
+    </div>
+    <div class="chat-footer">
+        <form action="">
+            <input type="text" class="form-control" placeholder="Recipient's username"
+                   aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="form-buttons">
+                <button class="btn btn-light btn-floating" type="button">
+                    <i class="fa fa-paperclip"></i>
+                </button>
+                <button class="btn btn-light btn-floating" type="button">
+                    <i class="fa fa-microphone"></i>
+                </button>
+                <button class="btn btn-primary btn-floating" type="submit">
+                    <i class="fa fa-send"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+</html>

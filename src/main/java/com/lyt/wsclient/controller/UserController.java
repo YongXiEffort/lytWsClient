@@ -22,6 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 用户操作Controller
+ */
 @Controller
 @RequestMapping("/userC")
 public class UserController {
@@ -31,6 +34,14 @@ public class UserController {
     @Autowired
     private IUserService iUserService;
 
+    /**
+     * 用户登录
+     * @param username
+     * @param password
+     * @param request
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/login")
     public String login(@RequestParam(required = false) String username,
                         @RequestParam(required = false) String password,
@@ -51,6 +62,12 @@ public class UserController {
         return successUrl;
     }
 
+    /**
+     * 用户退出系统
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/logoutSystem")
     @ResponseBody
     public AjaxJsonResult logoutSystem(HttpServletRequest request, HttpServletResponse response) {

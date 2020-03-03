@@ -11,25 +11,28 @@ function initWs() {
             socket = new WebSocket("ws://localhost:8000/wsx");
 
             socket.onmessage = function(event){
-                var ta = document.getElementById('responseText');
-                ta.value += event.data+"\r\n";
+                // var ta = document.getElementById('responseText');
+                // ta.value += event.data+"\r\n";
                 wsOnMessage(event.data);
             };
 
             socket.onopen = function(event){
-                var ta = document.getElementById('responseText');
-                ta.value = "Netty-WebSocket服务器。。。。。。连接  \r\n";
+                // var ta = document.getElementById('responseText');
+                // ta.value = "Netty-WebSocket服务器。。。。。。连接  \r\n";
+                console.log("Netty-WebSocket服务器。。。。。。连接")
                 wsOnOpen(event);
             };
 
             socket.onclose = function(event){
-                var ta = document.getElementById('responseText');
-                ta.value = "Netty-WebSocket服务器。。。。。。关闭 \r\n";
+                // var ta = document.getElementById('responseText');
+                // ta.value = "Netty-WebSocket服务器。。。。。。关闭 \r\n";
+                console.log("Netty-WebSocket服务器。。。。。。关闭")
             };
 
             socket.onerror = function (event) {
-                var ta = document.getElementById('responseText');
-                ta.value = "Netty-WebSocket服务器。。。。。。连接出现异常...  \r\n";
+                // var ta = document.getElementById('responseText');
+                // ta.value = "Netty-WebSocket服务器。。。。。。连接出现异常...  \r\n";
+                console.log("Netty-WebSocket服务器。。。。。。连接出现异常... ")
             }
 
         }
@@ -40,6 +43,15 @@ function initWs() {
 
 function wsOnMessage(data) {
     console.log(" 收到消息 " + data);
+    var dataContent = JSON.parse(data);
+    if (dataContent.action == 2) {
+        console.log(" 收到聊天消息 " + dataContent.chatMsg[0].msg);
+    } else if (dataContent.action == 6) {
+        // 展示用户和朋友的对话框消息内容
+        console.log(" content length : " + dataContent.chatMsg.length);
+        $("#chatBodyFriIfOnline").text((dataContent.extand == 1 ? "Online" : "OutLine"));
+        showChatBody(dataContent.chatMsg);
+    }
 }
 
 function wsOnOpen(event) {
@@ -86,6 +98,9 @@ function wsChat(msg) {
 
 function wsInitUser() {
     // webSocket连接上后发送UserId用以服务器保存channel和用户的关系
-    var dataContent = new app.DataContent(app.CONNECT, new app.ChatMsg("lyt", null, null, null), null);
+    var currentUserId = $("#currentUserId").val();
+    var arry = new Array();
+    arry.push(new app.ChatMsg(currentUserId, null, null, null, null, null));
+    var dataContent = new app.DataContent(app.CONNECT, arry, null);
     wsChat(JSON.stringify(dataContent));
 }

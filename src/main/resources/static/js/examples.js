@@ -1,30 +1,31 @@
+var ChatosExamle = {
+    Message: {
+        add: function (message, type, sendTime) {
+            var chat_body = $('.layout .content .chat .chat-body');
+            if (chat_body.length > 0) {
+
+                type = type ? type : '';
+                message = message ? message : 'Lorem ipsum dolor sit amet.';
+                sendTime = sendTime ? sendTime : '';
+
+                $('.layout .content .chat .chat-body .messages').append('<div class="message-item ' + type + '"><div class="message-content">' + message + '</div><div class="message-action">PM 14:25 ' + (type ? '<i class="ti-check"></i>' : '') + '</div></div>');
+
+                chat_body.scrollTop(chat_body.get(0).scrollHeight, -1).niceScroll({
+                    cursorcolor: 'rgba(66, 66, 66, 0.20)',
+                    cursorwidth: "4px",
+                    cursorborder: '0px'
+                });
+            }
+        }
+    }
+};
+
 $(function () {
 
     /**
      * Some examples of how to use features.
      *
      **/
-
-    var ChatosExamle = {
-        Message: {
-            add: function (message, type) {
-                var chat_body = $('.layout .content .chat .chat-body');
-                if (chat_body.length > 0) {
-
-                    type = type ? type : '';
-                    message = message ? message : 'Lorem ipsum dolor sit amet.';
-
-                    $('.layout .content .chat .chat-body .messages').append('<div class="message-item ' + type + '"><div class="message-content">' + message + '</div><div class="message-action">PM 14:25 ' + (type ? '<i class="ti-check"></i>' : '') + '</div></div>');
-
-                    chat_body.scrollTop(chat_body.get(0).scrollHeight, -1).niceScroll({
-                        cursorcolor: 'rgba(66, 66, 66, 0.20)',
-                        cursorwidth: "4px",
-                        cursorborder: '0px'
-                    });
-                }
-            }
-        }
-    };
 
     setTimeout(function () {
         ChatosExamle.Message.add();

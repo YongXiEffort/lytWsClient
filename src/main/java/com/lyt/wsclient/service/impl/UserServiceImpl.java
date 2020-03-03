@@ -72,6 +72,15 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
+    @Override
+    public User getByUserId(String userId) {
+        User user = userMapper.findByUserId(userId);
+        if (user != null && user.getId() != null) {
+            return user;
+        }
+        return null;
+    }
+
     /**
      * Builds the authentication.
      *

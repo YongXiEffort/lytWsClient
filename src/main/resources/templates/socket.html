@@ -21,7 +21,9 @@
 <script type="text/javascript">
 
     function send(message){
-        var dataContent = new app.DataContent(app.CHAT, new app.ChatMsg("lyt", null, message, null), null);
+        var arry = new Array();
+        arry.push(new app.ChatMsg("lyt", null, message, null, null, null));
+        var dataContent = new app.DataContent(app.CHAT, arry, null);
        wsChat(JSON.stringify(dataContent));
     }
 
