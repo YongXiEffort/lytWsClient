@@ -60,10 +60,10 @@ function wsOnOpen(event) {
     // 发送心跳包
     setTimeout(function () {
         keepAliveHeartBeat();
-    }, 1000);
+    }, 5000);
     setTimeout(function () {
         wsInitUser();
-    }, 1000);
+    }, 50);
 }
 
 function keepAliveHeartBeat() {

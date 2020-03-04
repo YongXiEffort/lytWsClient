@@ -36,6 +36,32 @@ $(function(){
 });
 
 /**
+ * 聊天对话框的消息内容加载
+ * @type {{Message: {add: ChatMsgDeal.Message.add}}}
+ */
+var ChatMsgDeal = {
+    Message: {
+        add: function (message, type, sendTime) {
+            var chat_body = $('.layout .content .chat .chat-body');
+            if (chat_body.length > 0) {
+
+                type = type ? type : '';
+                message = message ? message : 'Lorem ipsum dolor sit amet.';
+                sendTime = sendTime ? sendTime : '';
+
+                $('.layout .content .chat .chat-body .messages').append('<div class="message-item ' + type + '"><div class="message-content">' + message + '</div><div class="message-action">' + sendTime + (type ? '<i class="ti-check"></i>' : '') + '</div></div>');
+
+                chat_body.scrollTop(chat_body.get(0).scrollHeight, -1).niceScroll({
+                    cursorcolor: 'rgba(66, 66, 66, 0.20)',
+                    cursorwidth: "4px",
+                    cursorborder: '0px'
+                }).resize();
+            }
+        }
+    }
+};
+
+/**
  * 加载 Chat 导航栏
  */
 function showChatsSidebarBody() {
@@ -53,6 +79,10 @@ function showChatsSidebarBody() {
             alert("请求失败[" + reqText.status + "]");
         }
     });
+    var friUserId = $("#friUserId").val();
+    if (friUserId != null && friUserId != undefined) {
+        $("#lgi" + friUserId).attr("class","list-group-item open-chat");
+    }
 
 }
 
@@ -78,6 +108,10 @@ function sendChatBodyRequest(friUserId) {
         }
     });
     // chat导航栏增加当前聊天好友的样式
+    var lgiElements = document.getElementsByClassName("list-group-item");
+    for (var i=0;i<lgiElements.length;i++) {
+        lgiElements[i].setAttribute("class", "list-group-item");
+    }
     $("#lgi" + friUserId).attr("class","list-group-item open-chat");
     // 发送拉取与好友的聊天内容请求到netty服务器
     var array = new Array();
@@ -110,28 +144,6 @@ function showChatBody(chatMsgList) {
     }
 
 }
-
-/**
- * 聊天对话框的消息内容加载
- * @type {{Message: {add: ChatMsgDeal.Message.add}}}
- */
-var ChatMsgDeal = {
-    Message: {
-        add: function (message, type, sendTime) {
-            var chat_body = $('.layout .content .chat .chat-body');
-            if (chat_body.length > 0) {
-
-                type = type ? type : '';
-                message = message ? message : 'Lorem ipsum dolor sit amet.';
-                sendTime = sendTime ? sendTime : '';
-
-                $('.layout .content .chat .chat-body .messages').append('<div class="message-item ' + type + '"><div class="message-content">' + message + '</div><div class="message-action">' + sendTime + (type ? '<i class="ti-check"></i>' : '') + '</div></div>');
-
-                chat_body.scrollTop(chat_body.get(0).scrollHeight, -1);
-            }
-        }
-    }
-};
 
 function showNewMsg(dataContent) {
     var chatMsg = dataContent.chatMsg[0];
@@ -174,7 +186,19 @@ function showNewMsg(dataContent) {
     }
 }
 
-function sendMsgToFri() {
-    var sendFriMsg = $("#chat-Footer-text").val();
 
+function showFriendsSidebarBody() {
+    $.ajax({
+        url: context_path + "/friendsC/getFriendsSidebarBodyPage",
+        type: "GET",
+        async : false,
+        dataType: "html",
+        success: function (data) {
+            $("#friends-sidebar-body-lyt").empty();
+            $("#friends-sidebar-body-lyt").html(data);
+        },
+        error: function (reqText) {
+            alert("请求失败[" + reqText.status + "]");
+        }
+    });
 }
