@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
     <div class="chat-header">
+        <input type="hidden" th:value="${friUserId}" id="friUserId" /> <!-- 对话框的朋友的ID -->
         <div class="chat-header-user">
             <figure class="avatar avatar-lg">
                 <img th:src="@{/image/man_avatar3.jpg}" class="rounded-circle">

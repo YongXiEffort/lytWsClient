@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<input type="hidden" id="currentUserId" th:value="${session?.userUtils.getCurrUser().getId()}" />
+<input type="hidden" id="currentUserId" th:value="${session?.userUtils.getCurrUser().getId()}" /><!-- 当前登录用户的Id -->
 
 <!-- page loading -->
 <div class="page-loading"></div>
@@ -502,7 +502,7 @@
                     </a>
                 </li>
                 <li>
-                    <a data-navigation-target="chats" class="active" href="#" onclick="showChatsSidebarBody();">
+                    <a id="chats-navigation-atag" data-navigation-target="chats" class="active" href="#" onclick="showChatsSidebarBody();">
                         <i class="ti-comment-alt"></i>
                     </a>
                 </li>
@@ -1126,7 +1126,7 @@
 <script type="text/javascript" th:src="@{/js/common/common.js}"></script>
 <script type="text/javascript" th:src="@{/js/webSocket/websocket.js}"></script>
 <script type="text/javascript" th:src="@{/js/webSocket/contant.js}"></script>
-<script type="text/javascript" th:src="@{/js/examples.js}"></script>
+<!--<script type="text/javascript" th:src="@{/js/examples.js}"></script>-->
 
 <script th:inline="javascript">
     var context_path = /*[[@{/}]]*/ '';
@@ -1157,7 +1157,7 @@
 <script th:src="@{/js/soho.min.js}"></script>
 
 <!-- Examples -->
-<script th:src="@{/js/examples.js}"></script>
+<!--<script th:src="@{/js/examples.js}"></script>-->
 
 </body>
 </html>

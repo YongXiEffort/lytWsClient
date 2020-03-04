@@ -41,6 +41,7 @@ public class ChatsController {
         String friUserName = iUserService.getByUserId(friUserId).getUserName();
         System.out.println(" friUserName : " + friUserName);
         model.addAttribute("friUserName", friUserName);
+        model.addAttribute("friUserId", friUserId);
         return "indexComponentP/chatBody";
     }
 

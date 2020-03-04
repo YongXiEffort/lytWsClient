@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<div class="sidebar-body">
+<div class="sidebar-body" id="chats-sidebar-body-id">
     <ul class="list-group list-group-flush">
-        <li class="list-group-item" th:onclick="sendChatBodyRequest([[${friUser?.friUserId}]]);" th:each="friUser, stat : ${friUserList}">
+        <li class="list-group-item" th:id="'lgi' + ${friUser?.friUserId}" th:onclick="sendChatBodyRequest([[${friUser?.friUserId}]]);" th:each="friUser, stat : ${friUserList}">
             <div>
-                <figure class="avatar" th:classappend="${friUser?.notReceptMsgCount > 0} ? 'avatar-state-success' : ''">
+                <figure th:id="'figure' + ${friUser?.friUserId}" class="avatar" th:classappend="${friUser?.notReceptMsgCount > 0} ? 'avatar-state-success' : ''">
                     <img th:src="@{/image/man_avatar3.jpg}" class="rounded-circle">
                 </figure>
             </div>
             <div class="users-list-body">
                 <h5 th:text="${friUser?.friUserName}">Patsy Paulton</h5>
-                <p th:text="${friUser?.content}">Traditional heading elscas sdscsd sdcsdsc</p>
-                <div class="users-list-action" th:style="'display:' + @{(${friUser?.notReceptMsgCount < 1} ? 'none' : 'inline-block')} + ''">
-                    <div class="new-message-count" th:text="${friUser?.notReceptMsgCount}">2</div>
+                <p th:text="${friUser?.content}" th:id="'ulbLastText' + ${friUser?.friUserId}">Traditional heading elscas sdscsd sdcsdsc</p>
+                <div class="users-list-action" th:id="'ula' + ${friUser?.friUserId}" th:style="'display:' + @{(${friUser?.notReceptMsgCount < 1} ? 'none' : 'inline-block')} + ''">
+                    <div class="new-message-count" th:id="'ulanmc' + ${friUser?.friUserId}" th:text="${friUser?.notReceptMsgCount}">2</div>
                 </div>
-                <div class="users-list-action action-toggle" th:style="'display:' + @{(${friUser?.notReceptMsgCount > 0} ? 'none' : 'inline-block')} + ''">
+                <div class="users-list-action action-toggle" th:id="'ulaat' + ${friUser?.friUserId}" th:style="'display:' + @{(${friUser?.notReceptMsgCount > 0} ? 'none' : 'inline-block')} + ''">
                     <div class="dropdown">
                         <a data-toggle="dropdown" href="#">
                             <i class="ti-more"></i>

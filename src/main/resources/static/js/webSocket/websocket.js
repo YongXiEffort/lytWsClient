@@ -46,6 +46,7 @@ function wsOnMessage(data) {
     var dataContent = JSON.parse(data);
     if (dataContent.action == 2) {
         console.log(" 收到聊天消息 " + dataContent.chatMsg[0].msg);
+        showNewMsg(dataContent);
     } else if (dataContent.action == 6) {
         // 展示用户和朋友的对话框消息内容
         console.log(" content length : " + dataContent.chatMsg.length);
