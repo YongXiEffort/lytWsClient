@@ -2,7 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="sidebar-body" id="chats-sidebar-body-id">
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush" id="chats-sidebar-body-ul">
+
+        <li class="list-group-item" th:each="addFriReq, stat : ${addFriRequestList}" data-toggle="modal" data-target="#addFriendsRequestDialog" th:onclick="setAddFriendRequestModalMsg([[${addFriReq}]]);">
+            <figure class="avatar avatar-state-success">
+                <img th:src="${addFriReq?.sendUserImgPath}" class="rounded-circle">
+            </figure>
+            <div class="users-list-body">
+                <h5 th:text="${addFriReq?.sendUserName}">Patsy Paulton</h5>
+                <p th:text="${addFriReq?.invitationMsg}">Traditional heading elscas sdscsd sdcsdsc</p>
+                <div class="users-list-action">
+                    <div class="new-message-count">1</div>
+                </div>
+            </div>
+        </li>
+
         <li class="list-group-item" th:id="'lgi' + ${friUser?.friUserId}" th:onclick="sendChatBodyRequest([[${friUser?.friUserId}]]);" th:each="friUser, stat : ${friUserList}">
             <div>
                 <figure th:id="'figure' + ${friUser?.friUserId}" class="avatar" th:classappend="${friUser?.notReceptMsgCount > 0} ? 'avatar-state-success' : ''">

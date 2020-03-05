@@ -2,6 +2,7 @@ package com.lyt.wsclient.service.interfaceP;
 
 import com.lyt.wsclient.domain.ChatSingle;
 import com.lyt.wsclient.domain.User;
+import com.lyt.wsclient.model.chat.AddFriendModel;
 import com.lyt.wsclient.model.chat.FriUserListModel;
 
 import java.util.List;
@@ -20,5 +21,11 @@ public interface IChatService {
      * @return
      */
     public List<ChatSingle> findChatMsgByReceptUser(String friUserId);
+
+    /**
+     * 根据当前用户的ID查找发来的添加好友请求
+     * @return
+     */
+    public List<AddFriendModel> findAddFriendRequestByCurrentUserId();
 
 }

@@ -13,4 +13,6 @@ public interface IUserService {
 
     public User getByUserId(String userId);
 
+    public User getByUsername(String username);
+
 }

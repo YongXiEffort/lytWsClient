@@ -5,6 +5,8 @@ window.app = {
     KEEPALIVE: 4,   // 客户端保持心跳
     PULL_FRIEND:5,  // 重新拉取好友
     PULL_CHAT_MSG:6, //拉去用户聊天消息
+    ADD_FRIEND:7, //请求加好友
+    ADD_FRIEND_REPONSE:8, //好友请求回复
 
     // 消息模型的构造函数
     ChatMsg: function(senderId, receiverId, msg, msgId, sendTime, contentType){

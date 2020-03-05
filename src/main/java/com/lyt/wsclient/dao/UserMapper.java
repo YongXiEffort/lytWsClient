@@ -10,7 +10,13 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    @Select("SELECT * FROM user WHERE user_name = #{userName}")
+    @Select("SELECT id,user_name,password,img_path FROM user WHERE user_name = #{userName}")
+    @Results({
+            @Result(column="id", property="id", jdbcType= JdbcType.VARCHAR, id=true),
+            @Result(column="user_name", property="userName", jdbcType=JdbcType.VARCHAR),
+            @Result(column="password", property="password", jdbcType=JdbcType.VARCHAR),
+            @Result(column="img_path", property="imgPath", jdbcType=JdbcType.VARCHAR),
+    })
     User findByName(@Param("userName") String userName);
 
     @Insert("INSERT INTO user(id, user_name, password) VALUES(#{id}, #{userName}, #{password})")

@@ -64,6 +64,7 @@ public class UserServiceImpl implements IUserService {
         throw new UsernameNotFoundException("用户名或密码错误");
     }
 
+    @Override
     public User getByUsername(String username) {
         User user = userMapper.findByName(username);
         if (user != null && user.getId() != null) {

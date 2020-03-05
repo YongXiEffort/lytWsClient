@@ -105,8 +105,13 @@
                 <div class="alert alert-info">Send invitations to friends.</div>
                 <form>
                     <div class="form-group">
-                        <label for="emails" class="col-form-label">Email addresses</label>
-                        <input type="text" class="form-control" id="emails">
+                        <label for="emails" class="col-form-label" >用户名</label>
+                        <br/>
+                        <input type="text" class="form-control" id="emails" style="width: 50%;float: left">
+                        <button style="margin-left: 20px" type="button" class="btn btn-primary" onclick="searchWhichFriendYouWantToAdd()">Search</button>
+                    </div>
+                    <div class="form-group" id="addFriendModalShowFriMsgDiv">
+                        <input type="hidden" id="addFriendModalHiddenUserId" />
                     </div>
                     <div class="form-group">
                         <label for="message" class="col-form-label">Invitation message</label>
@@ -115,12 +120,57 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button data-dismiss="modal" type="button" class="btn btn-primary" onclick="sendAddFriendRequest()">Submit</button>
             </div>
         </div>
     </div>
 </div>
 <!-- ./ add friends modal -->
+
+<!--  add friends request dialog modal -->
+<div class="modal fade" id="addFriendsRequestDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="ti-user"></i> Add Friends Request
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="ti-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">Invitations from friends.</div>
+                <form>
+                    <div class="form-group">
+                        <input type="hidden" id="addFriendRequestDialogHiddenMgsId" />
+                        <label for="emails" class="col-form-label">User</label>
+                        <div class="list-group-item">
+                            <figure class="avatar" style="float: left">
+                                <img id="AddFriRequestUserImg" th:src="@{/image/man_avatar3.jpg}" class="rounded-circle">
+                            </figure>
+                            &nbsp;&nbsp;&nbsp;
+                            <div class="users-list-body" style="margin-left: 50px">
+                                <h5 id="AddFriRequestUserName">Karl Hubane</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="col-form-label">Invitation message</label>
+                        <textarea class="form-control" id="AddFriRequestMsg"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AceptAddFriendRequest()">Acept</button>
+                <button type="button" class="btn btn-primary" onclick="RejectAddFriendRequest()">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./ add friends request dialog modal -->
 
 <!-- new group modal -->
 <div class="modal fade" id="newGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -507,7 +557,7 @@
                     </a>
                 </li>
                 <li>
-                    <a data-navigation-target="friends" href="#" class="notifiy_badge" onclick="showFriendsSidebarBody();">
+                    <a data-navigation-target="friends" href="#" class="brackets" onclick="showFriendsSidebarBody();">
                         <i class="ti-user"></i>
                     </a>
                 </li>

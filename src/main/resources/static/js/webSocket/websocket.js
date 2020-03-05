@@ -44,14 +44,17 @@ function initWs() {
 function wsOnMessage(data) {
     console.log(" 收到消息 " + data);
     var dataContent = JSON.parse(data);
-    if (dataContent.action == 2) {
+    if (dataContent.action == app.CHAT) {
         console.log(" 收到聊天消息 " + dataContent.chatMsg[0].msg);
         showNewMsg(dataContent);
-    } else if (dataContent.action == 6) {
+    } else if (dataContent.action == app.PULL_CHAT_MSG) {
         // 展示用户和朋友的对话框消息内容
         console.log(" content length : " + dataContent.chatMsg.length);
         $("#chatBodyFriIfOnline").text((dataContent.extand == 1 ? "Online" : "OutLine"));
         showChatBody(dataContent.chatMsg);
+    } else if (dataContent.action == app.ADD_FRIEND) {
+        // 在导航栏显示发送来的好友添加请求
+        showAddFriendRequestInSidebar(dataContent);
     }
 }
 

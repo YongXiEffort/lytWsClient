@@ -27,6 +27,7 @@ public class ChatsController {
      */
     @RequestMapping(value = "/getChatsSidebarBodyPage", method = RequestMethod.GET)
     public String getChatsSidebarBodyPage(Model model) {
+        model.addAttribute("addFriRequestList", iChatService.findAddFriendRequestByCurrentUserId());
         model.addAttribute("friUserList", iChatService.findFriUserAroundUser());
         return "indexComponentP/chatsSidebarBody";
     }
