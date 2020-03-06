@@ -130,7 +130,7 @@ function showChatBody(chatMsgList) {
     var currentUserId = $("#currentUserId").val();
     $("#figure" + chatMsgList[0].senderId).attr("class","avatar");
     $("#ulaat" + chatMsgList[0].senderId).css('display','');
-    $("#ulanmc" + chatMsgList[0].senderId).text(0);
+    $("#ulanmc" + chatMsgList[0].senderId).html(0);
     $("#ula" + chatMsgList[0].senderId).css('display','none');
     if (chatMsgList != null && chatMsgList != undefined) {
         for (var i=0;i<chatMsgList.length;i++) {
@@ -165,21 +165,22 @@ function showNewMsg(dataContent) {
             var sendMsgFriId = chatMsg.senderId;
             $("#figure" + sendMsgFriId).attr("class","avatar avatar-state-success");
             $("#ulaat" + sendMsgFriId).css('display','none');
-            $("#ulanmc" + sendMsgFriId).text(dataContent.extand);
-            $("#ula" + sendMsgFriId).css('display',' ');
+            $("#ula" + sendMsgFriId).css('display','');
+            $("#ulanmc" + sendMsgFriId).html(dataContent.extand);
             $("#ulbLastText" + sendMsgFriId).text(chatMsg.msg);
         }
     } else {
         //已打开聊天对话框
         friUserId = $("#friUserId").val();
+        var sendMsgFriId = chatMsg.senderId;
         $("#ulbLastText" + sendMsgFriId).text(chatMsg.msg);
         if (friUserId != chatMsg.senderId) {
             // 当前聊天对话框不是发送消息过来的好友的对话框
             var sendMsgFriId = chatMsg.senderId;
             $("#figure" + sendMsgFriId).attr("class","avatar avatar-state-success");
             $("#ulaat" + sendMsgFriId).css('display','none');
-            $("#ulanmc" + sendMsgFriId).text(dataContent.extand);
-            $("#ula" + sendMsgFriId).css('display',' ');
+            $("#ula" + sendMsgFriId).css('display','');
+            $("#ulanmc" + sendMsgFriId).html(dataContent.extand);
         } else {
             ChatMsgDeal.Message.add(chatMsg.msg, null, chatMsg.sendTime);
             // 发送读消息回执
@@ -287,6 +288,7 @@ function showAddFriendRequestInSidebar(dataContent) {
         newLiNode.setAttribute("class", "list-group-item");
         newLiNode.setAttribute("data-toggle", "modal");
         newLiNode.setAttribute("data-target", "#addFriendsRequestDialog");
+        newLiNode.setAttribute("id", ("lgi" + chatMsg.msgId));
         newLiNode.onclick = function(){
             setAddFriendRequestModalMsgByNetty(dataContent);
         };
@@ -350,6 +352,54 @@ function RejectAddFriendRequest() {
     array.push(new app.ChatMsg(null, null,"0", $("#addFriendRequestDialogHiddenMgsId").val(), null, null));
     var dataContent = new app.DataContent(app.ADD_FRIEND_REPONSE, array, null);
     wsChat(JSON.stringify(dataContent));
+}
+
+/**
+ * 在导航栏显示发送来的好友添加的同意问候回复，仅显示导航栏部分即可，其余由用户自行点开聊天窗口
+ * @param dataContent
+ */
+function showAddFriendResponseInSidebar(dataContent) {
+    console.log("dataContent : " + dataContent.chatMsg);
+    var chatMsg = dataContent.chatMsg[0];
+    var chatsSidebarBodyId = document.getElementById("chats-sidebar-body-id");
+    console.log(" chatsSidebarBodyId : " + chatsSidebarBodyId);
+    if (chatsSidebarBodyId == null || chatsSidebarBodyId == undefined ) {
+        // 没有打开chat聊天导航栏
+        $("#chats-navigation-atag").attr("class","notifiy_badge");
+    } else {
+        $("#chats-navigation-atag").attr("class","active");
+        // 有打开chat聊天导航栏
+        // 添加新的子节点
+        var newLiNode = document.createElement("li");
+        newLiNode.setAttribute("class", "list-group-item");
+        newLiNode.setAttribute("id", ("lgi" + chatMsg.senderId));
+        newLiNode.onclick = function(){
+            sendChatBodyRequest(chatMsg.senderId);
+        };
+        // var friendRequestLiHtml = "<li class=\"list-group-item\" onclick=\"openAddFriendRequestDiglog()\">";
+        var friendRequestLiHtml = "";
+        friendRequestLiHtml += "<figure class=\"avatar avatar-state-success\">";
+        friendRequestLiHtml += "<img src=\"" + dataContent.extand + "\" class=\"rounded-circle\"></figure>";
+        friendRequestLiHtml += "<div class=\"users-list-body\"><h5>" + chatMsg.msgId + "</h5>";
+        friendRequestLiHtml += "<p id=\"ulbLastText" + chatMsg.senderId +"\">" + chatMsg.msg + "</p>";
+        friendRequestLiHtml += "<div id=\"ula" + chatMsg.senderId + "\" class=\"users-list-action\">";
+        friendRequestLiHtml += "<div id=\"ulanmc" + chatMsg.senderId + "\" class=\"new-message-count\">1</div></div>";
+        friendRequestLiHtml += "<div class=\"users-list-action action-toggle\" id=\"ulaat" + chatMsg.senderId + "\" style=\"display: none\">";
+        friendRequestLiHtml += "<div class=\"dropdown\"><a data-toggle=\"dropdown\" href=\"#\"><i class=\"ti-more\"></i></a>";
+        friendRequestLiHtml += "<div class=\"dropdown-menu dropdown-menu-right\"><a href=\"#\" class=\"dropdown-item\">Open</a>";
+        friendRequestLiHtml += "<a href=\"#\" data-navigation-target=\"contact-information\" class=\"dropdown-item\">Profile</a>";
+        friendRequestLiHtml += "<a href=\"#\" class=\"dropdown-item\">Add to archive</a><a href=\"#\" class=\"dropdown-item\">Delete</a>";
+        friendRequestLiHtml += "</div></div></div></div>";
+        newLiNode.appendHTML(friendRequestLiHtml);
+        var chatsSidebarBodyUlElement = document.getElementById("chats-sidebar-body-ul");
+        // 如果好友请求框还在的话，先去除导航栏中好友请求的框
+        var addFriendRequestNavigationLi = document.getElementById("lgi" + dataContent.extand);
+        if (addFriendRequestNavigationLi != null || addFriendRequestNavigationLi != undefined ) {
+            chatsSidebarBodyUlElement.removeChild(addFriendRequestNavigationLi);
+        }
+        chatsSidebarBodyUlElement.insertBefore(newLiNode, chatsSidebarBodyUlElement.childNodes[0]);
+        // 添加新的子节点
+    }
 }
 
 /**

@@ -55,6 +55,9 @@ function wsOnMessage(data) {
     } else if (dataContent.action == app.ADD_FRIEND) {
         // 在导航栏显示发送来的好友添加请求
         showAddFriendRequestInSidebar(dataContent);
+    } else if (dataContent.action == app.ADD_FRIEND_REPONSE) {
+        // 在导航栏显示发送来的好友添加的同意问候回复
+        showAddFriendResponseInSidebar(dataContent);
     }
 }
 
