@@ -7,6 +7,8 @@ window.app = {
     PULL_CHAT_MSG:6, //拉去用户聊天消息
     ADD_FRIEND:7, //请求加好友
     ADD_FRIEND_REPONSE:8, //好友请求回复
+    ADD_FRIEND_REPONSE_AGREE:9, //好友请求回复同意
+    ADD_FRIEND_REPONSE_REJECT:10, //好友请求回复拒绝
 
     // 消息模型的构造函数
     ChatMsg: function(senderId, receiverId, msg, msgId, sendTime, contentType){

@@ -127,6 +127,7 @@ function sendChatBodyRequest(friUserId) {
  * @param chatMsgList
  */
 function showChatBody(chatMsgList) {
+    // 加载页面聊天内容
     var currentUserId = $("#currentUserId").val();
     $("#figure" + chatMsgList[0].senderId).attr("class","avatar");
     $("#ulaat" + chatMsgList[0].senderId).css('display','');
@@ -143,6 +144,9 @@ function showChatBody(chatMsgList) {
             }
         }
     }
+
+    //聊天导航栏的对象框进行重新排序
+    reSortChatsSidebar(chatMsgList[0].senderId);
 
 }
 
@@ -168,6 +172,7 @@ function showNewMsg(dataContent) {
             $("#ula" + sendMsgFriId).css('display','');
             $("#ulanmc" + sendMsgFriId).html(dataContent.extand);
             $("#ulbLastText" + sendMsgFriId).text(chatMsg.msg);
+            reSortChatsSidebar(chatMsg.senderId);
         }
     } else {
         //已打开聊天对话框
@@ -189,6 +194,7 @@ function showNewMsg(dataContent) {
             var dataContent = new app.DataContent(app.SIGNED, array, null);
             wsChat(JSON.stringify(dataContent));
         }
+        reSortChatsSidebar(chatMsg.senderId);
     }
 }
 
@@ -319,6 +325,9 @@ function setAddFriendRequestModalMsgByNetty(dataContent) {
     $("#AddFriRequestUserName").text(chatMsg.senderId);
     $("#AddFriRequestMsg").text(chatMsg.msg);
     $("#addFriendRequestDialogHiddenMgsId").val(chatMsg.msgId);
+
+    //聊天导航栏的对象框进行重新排序
+    reSortChatsSidebar(chatMsg.msgId);
 }
 
 /**
@@ -330,6 +339,9 @@ function setAddFriendRequestModalMsg(addFriReq) {
     $("#AddFriRequestUserName").text(addFriReq.sendUserName);
     $("#AddFriRequestMsg").text(addFriReq.invitationMsg);
     $("#addFriendRequestDialogHiddenMgsId").val(addFriReq.addFriendRequestId);
+
+    //聊天导航栏的对象框进行重新排序
+    reSortChatsSidebar(addFriReq.addFriendRequestId);
 }
 
 /**
@@ -394,12 +406,43 @@ function showAddFriendResponseInSidebar(dataContent) {
         var chatsSidebarBodyUlElement = document.getElementById("chats-sidebar-body-ul");
         // 如果好友请求框还在的话，先去除导航栏中好友请求的框
         var addFriendRequestNavigationLi = document.getElementById("lgi" + dataContent.extand);
-        if (addFriendRequestNavigationLi != null || addFriendRequestNavigationLi != undefined ) {
+        if (addFriendRequestNavigationLi != null && addFriendRequestNavigationLi != undefined ) {
             chatsSidebarBodyUlElement.removeChild(addFriendRequestNavigationLi);
         }
         chatsSidebarBodyUlElement.insertBefore(newLiNode, chatsSidebarBodyUlElement.childNodes[0]);
         // 添加新的子节点
     }
+}
+
+/**
+ * 好友请求回复拒绝,将导航栏的好友请求部分清除
+ * @param dataContent
+ */
+function clearAddFriendSidebarInChatsSidebar(dataContent) {
+    var addFriendRequestLiNode = document.getElementById("lgi" + dataContent.extand);
+    if (addFriendRequestLiNode != null && addFriendRequestLiNode != undefined) {
+        var chatsSidebarBodyUlElement = document.getElementById("chats-sidebar-body-ul");
+        chatsSidebarBodyUlElement.removeChild(addFriendRequestLiNode);
+    }
+}
+
+/**
+ * 聊天导航栏的对象框进行重新排序
+ * @param sidebarId
+ */
+function reSortChatsSidebar(sidebarId) {
+    //聊天导航栏的对象框进行重新排序
+    $("#lgi" + sidebarId).attr("sortTime", new Date().getTime());
+    // console.log(" lgi time : " + $("#lgi" + sidebarId).attr("sortTime"));
+    var liNodeList = $("#chats-sidebar-body-ul .list-group-item").get();
+    liNodeList.sort(function (a,b) {
+        var sortTimeA = $(a).attr("sortTime");
+        var sortTimeB = $(b).attr("sortTime");
+        if(sortTimeA > sortTimeB) return -1;
+        if(sortTimeA < sortTimeB) return 1;
+        return 0;
+    });
+    $("#chats-sidebar-body-ul").append(liNodeList);
 }
 
 /**
